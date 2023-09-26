@@ -4,21 +4,31 @@
     <!-- The steps of the Wizard -->
     <Steps :currentStep="currentStep" />
     <!-- Search step-->
-    <CountriesSearch
-      v-if="currentStep === Step.CountriesSearch"
-      @showCountryDetails="currentStep = Step.CountryDetails"
-    />
-    <!-- Details step-->
-    <CountryDetails
-      v-if="currentStep === Step.CountryDetails"
-      @showCountriesSearch="currentStep = Step.CountriesSearch"
-      @showSubmitForm="currentStep = Step.SubmitForm"
-    />
-    <!-- Submit step-->
-    <SubmitForm
-      v-if="currentStep === Step.SubmitForm"
-      @showCountryDetails="currentStep = Step.CountryDetails"
-    />
+    <TransitionGroup name="fade">
+      <div key="search" v-show="currentStep === WizardStep.CountriesSearch">
+        <CountriesSearch @showCountryDetails="setCountryDetailsStep" />
+      </div>
+      <!-- Details step-->
+      <div key="details" v-show="currentStep === WizardStep.CountryDetails">
+        <CountryDetails />
+        <div class="d-flex mt-5 justify-content-between">
+          <!-- Emit event in order to the previous step (CountriesSearch component) -->
+          <button @click="setCountriesSearchStep">Previous</button>
+          <!-- Emit event in order to the next step (SubmitForm component) -->
+          <button @click="setSubmitFormStep">Next</button>
+        </div>
+      </div>
+      <!-- Submit step-->
+      <div key="submit" v-show="currentStep === WizardStep.SubmitForm">
+        <SubmitForm>
+          <template #buttons>
+            <button type="button" @click="setCountryDetailsStep">
+              Previous
+            </button>
+          </template>
+        </SubmitForm>
+      </div>
+    </TransitionGroup>
   </div>
 </template>
 <script setup lang="ts">
@@ -36,8 +46,32 @@ import Steps from './Steps.vue'
 import CountriesSearch from '../CountriesSearch/CountriesSearch.vue'
 import CountryDetails from '../CountryDetails/CountryDetails.vue'
 import SubmitForm from '../SubmitForm/SubmitForm.vue'
-import { Step } from '../../utils/enums'
+import { WizardStep } from '../../utils/enums'
 
 // Keep track of the current step
-const currentStep = ref(Step.CountriesSearch)
+const currentStep = ref(WizardStep.CountriesSearch)
+
+function setCountriesSearchStep() {
+  currentStep.value = WizardStep.CountriesSearch
+}
+
+function setCountryDetailsStep() {
+  currentStep.value = WizardStep.CountryDetails
+}
+
+function setSubmitFormStep() {
+  currentStep.value = WizardStep.SubmitForm
+}
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-leave-to {
+  display: none;
+}
+</style>

@@ -1,38 +1,25 @@
 <template>
   <ol class="d-flex justify-content-center">
-    <li
-      class="step p-4"
-      :class="{ highlight: currentStep === Step.CountriesSearch }"
-    >
+    <Step :class="{ highlight: currentStep === WizardStep.CountriesSearch }">
       1. Search
-    </li>
-    <li
-      class="step p-4"
-      :class="{ highlight: currentStep === Step.CountryDetails }"
-    >
+    </Step>
+    <Step :class="{ highlight: currentStep === WizardStep.CountryDetails }">
       2. Details
-    </li>
-    <li
-      class="step p-4"
-      :class="{ highlight: currentStep === Step.SubmitForm }"
-    >
+    </Step>
+    <Step :class="{ highlight: currentStep === WizardStep.SubmitForm }">
       3. Submit
-    </li>
+    </Step>
   </ol>
 </template>
 <script setup lang="ts">
-import { Step } from '../../utils/enums'
+import Step from './Step.vue'
+import { WizardStep } from '../../utils/enums'
 
 const { currentStep } = defineProps<{
-  currentStep: Step
+  currentStep: WizardStep
 }>()
 </script>
 <style scoped>
-.step {
-  display: flex;
-  color: blue;
-}
-
 .highlight {
   background: blue;
   color: white;
