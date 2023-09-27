@@ -1,4 +1,4 @@
-export enum Step {
+export enum WizardStep {
   CountriesSearch,
   CountryDetails,
   SubmitForm

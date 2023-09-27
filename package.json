@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "@vueuse/core": "^10.4.1",
     "bootstrap": "5.3.2",
     "pinia": "^2.1.6",
     "sass": "^1.68.0",
@@ -20,8 +20,10 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/test-utils": "^2.4.1",
+    "happy-dom": "^12.2.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vitest": "^0.34.5",
     "vue-tsc": "^1.8.5"
   }
 }

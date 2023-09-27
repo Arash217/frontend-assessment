@@ -31,7 +31,7 @@
       Form successfully validated
     </p>
     <div class="d-flex justify-content-between mt-5">
-      <button @click="emit('showCountryDetails')">Previous</button>
+      <slot name="buttons" />
       <input type="submit" value="Submit" />
     </div>
   </form>
@@ -40,14 +40,13 @@
 import { ref } from 'vue'
 import { required, email } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
-import { storeToRefs } from 'pinia'
-import { useFormStore } from '../../stores/form'
+import { Form } from '../../types/form'
 
-const store = useFormStore()
-/* 
-  Use storeToRefs in order to keep the reactivity intact when destructuring
-*/
-const { form } = storeToRefs(store)
+const form = ref<Form>({
+  firstName: '',
+  lastName: '',
+  email: '',
+})
 
 const showSuccessMessage = ref(false)
 
@@ -77,6 +76,4 @@ async function handleSubmit() {
     showSuccessMessage.value = true
   }
 }
-
-const emit = defineEmits(['showCountryDetails'])
 </script>
